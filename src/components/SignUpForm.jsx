@@ -1,32 +1,75 @@
-import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import axios from '../utils/api'
-import { useAuth } from './AuthProvider'
+// src/components/SignupForm.jsx
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import instance from "../utils/api";
 
 export default function SignupForm() {
-    const { setUser } = useAuth()
-    const navigate = useNavigate()
-    const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '' })
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: ""
+    });
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        setError(null);
+
         try {
-            const res = await axios.post('/users', { ...form })
-            localStorage.setItem('token', res.data.token)
-            setUser(res.data.user)
-            navigate('/dashboard')
+            const res = await instance.post("/users", { user: formData }, {
+                headers: { Authorization: "" },
+            });
+
+            localStorage.setItem("token", res.data.token);
+            navigate("/dashboard");
         } catch (err) {
-            alert('Signup failed')
+            console.error("SIGNUP ERROR:", err);
+            setError(err.response?.data?.errors?.join(", ") || "Signup failed");
         }
-    }
+    };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input placeholder="Name" onChange={e => setForm({ ...form, name: e.target.value })} />
-            <input placeholder="Email" onChange={e => setForm({ ...form, email: e.target.value })} />
-            <input type="password" placeholder="Password" onChange={e => setForm({ ...form, password: e.target.value })} />
-            <input type="password" placeholder="Confirm Password" onChange={e => setForm({ ...form, password_confirmation: e.target.value })} />
-            <button type="submit">Sign Up</button>
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 space-y-3">
+            <input
+                name="name"
+                placeholder="Name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+            />
+            <input
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+            />
+            <input
+                name="password"
+                type="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+            />
+            <input
+                name="password_confirmation"
+                type="password"
+                placeholder="Confirm Password"
+                value={formData.password_confirmation}
+                onChange={handleChange}
+                className="w-full p-2 border rounded"
+            />
+            {error && <p className="text-red-500">{error}</p>}
+            <button type="submit" className="bg-black text-white px-4 py-2 rounded">
+                Sign Up
+            </button>
         </form>
-    )
+    );
 }
