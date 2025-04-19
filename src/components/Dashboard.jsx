@@ -17,10 +17,20 @@ export default function Dashboard() {
         'Memberships': <Memberships />
     }
 
+    // Placeholder for future org-role logic:
+    const role = "owner" // Simulating a role for now
+
     return (
         <div className="dashboard-container">
-            <VerticalTabs active={active} setActive={setActive} tabs={Object.keys(tabs)} />
-            <div className="dashboard-content">{tabs[active]}</div>
+            <VerticalTabs
+                active={active}
+                setActive={setActive}
+                tabs={Object.keys(tabs)}
+                role={role}
+            />
+            <div className="dashboard-content">
+                {tabs[active]}
+            </div>
         </div>
     )
 }
