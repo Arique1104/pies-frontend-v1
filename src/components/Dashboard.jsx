@@ -1,24 +1,31 @@
-import VerticalTabs from './VerticalTabs'
-import PIESCheckin from './tabs/PIESCheckin'
-import Growth from './tabs/Growth'
-import Tips from './tabs/Tips'
-import Events from './tabs/Events'
-import Memberships from './tabs/Memberships'
-import { useState } from 'react'
+import { useEffect, useState } from 'react';
+import VerticalTabs from './VerticalTabs';
+import PIESCheckin from './tabs/PIESCheckin';
+import Growth from './tabs/Growth';
+import Tips from './tabs/Tips';
+import Events from './tabs/Events';
+import Memberships from './tabs/Memberships';
+import Favorites from './tabs/Favorites';
 
 export default function Dashboard() {
-    const [active, setActive] = useState('PIES Checkin')
+    const [active, setActive] = useState(() => {
+        return localStorage.getItem('activeTab') || 'PIES Checkin';
+    });
+
+    useEffect(() => {
+        localStorage.setItem('activeTab', active);
+    }, [active]);
 
     const tabs = {
         'PIES Checkin': <PIESCheckin />,
-        'Growth': <Growth />,
         'Tips': <Tips />,
+        '⭐ Favorites': <Favorites />,
+        'Growth': <Growth />,
         'Events': <Events />,
-        'Memberships': <Memberships />
-    }
+        'Memberships': <Memberships />,
+    };
 
-    // Placeholder for future org-role logic:
-    const role = "owner" // Simulating a role for now
+    const role = 'owner'; // Placeholder for future role logic
 
     return (
         <div className="dashboard-container">
@@ -28,9 +35,7 @@ export default function Dashboard() {
                 tabs={Object.keys(tabs)}
                 role={role}
             />
-            <div className="dashboard-content">
-                {tabs[active]}
-            </div>
+            <div className="dashboard-content">{tabs[active]}</div>
         </div>
-    )
+    );
 }
