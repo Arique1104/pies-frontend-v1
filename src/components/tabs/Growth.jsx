@@ -49,7 +49,7 @@ const Growth = () => {
             {renderScoreBlock("Previous Check-In", previous_scores)}
             {renderScoreBlock("Today’s Scores", today_scores)}
             {<PIESFlower scores={average_scores} />}
-            {<PIESLineChart entries={average_scores}/>}
+            {/* {<PIESLineChart entries={average_scores}/>} */}
 
             <div className="md:col-span-3 border p-4 rounded-xl bg-yellow-50 shadow-inner">
                 <h3 className="font-semibold text-lg mb-2">Growth Insights</h3>
