@@ -4,7 +4,6 @@ import { createPIESCheckin } from "../../utils/api"
 import HealingPlant from "../HealingPlant"
 
 export default function PIESCheckin() {
-    const [userId, setUserId] = useState(null);
     const [streakData, setStreakData] = useState(null);
     const [formData, setFormData] = useState({
         physical: { rating: 5, description: "" },
@@ -20,15 +19,7 @@ export default function PIESCheckin() {
     useEffect(() => {
         async function fetchUserAndStreak() {
             try {
-                const meRes = await instance.get("/me");
-                const user = meRes.data?.user;
-                if (!user || !user.id) {
-                    throw new Error("User info not returned from /me");
-                }
-                const id = user.id;
-                setUserId(id);
-
-                const streakRes = await instance.get(`/users/${id}/pies_entries/latest`);
+                const streakRes = await instance.get(`pies_entries/latest`);
                 setStreakData(streakRes.data);
             } catch (err) {
                 console.error(err);
@@ -72,10 +63,10 @@ export default function PIESCheckin() {
             };
        
 
-            await createPIESCheckin(userId, payload);
+            await createPIESCheckin(payload);
 
             // Refresh streak info
-            const updated = await instance.get(`/users/${userId}/pies_entries/latest`);
+            const updated = await instance.get(`/pies_entries/latest`);
             setStreakData(updated.data);
             setSubmitted(true);
             setTimeout(() => setSubmitted(false), 3000);
