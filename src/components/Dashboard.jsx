@@ -6,15 +6,27 @@ import Tips from './tabs/Tips';
 import Events from './tabs/Events';
 import Memberships from './tabs/Memberships';
 import Favorites from './tabs/Favorites';
+import Product from './tabs/Product'; // <-- Import the Product tab
 
 export default function Dashboard() {
     const [active, setActive] = useState(() => {
         return localStorage.getItem('activeTab') || 'PIES Checkin';
     });
+    const [superUser, setSuperUser] = useState(false);
 
     useEffect(() => {
         localStorage.setItem('activeTab', active);
     }, [active]);
+
+    useEffect(() => {
+        getCurrentUser()
+            .then((user) => {
+                setSuperUser(user?.super_user);
+            })
+            .catch((err) => {
+                console.error("Failed to load user", err);
+            });
+    }, []);
 
     const tabs = {
         'PIES Checkin': <PIESCheckin />,
@@ -24,6 +36,10 @@ export default function Dashboard() {
         'Events': <Events />,
         'Memberships': <Memberships />,
     };
+
+    if (superUser) {
+        tabs['🛠️ Production'] = <Product />;
+    }
 
     const role = 'owner'; // Placeholder for future role logic
 
