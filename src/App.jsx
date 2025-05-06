@@ -6,8 +6,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LandingPage from './components/LandingPage';
 import LoginForm from "./components/LoginForm";
 
-// inside <Routes>
-<Route path="/login" element={<LoginForm />} />
 
 export default function App() {
   return (
