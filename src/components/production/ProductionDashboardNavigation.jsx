@@ -13,6 +13,7 @@ export default function ProductionDashboardNavigation() {
 
     return (
         <div>
+            <h2>Production Toolbox</h2>
             {tools.map(({ label, path }) => (
                 <button
                 key={path}
