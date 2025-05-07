@@ -12,6 +12,12 @@ export default function Production() {
 
     return (
         <div className="p-6">
+            <button
+                onClick={() => navigate('/dashboard')}
+                className="mb-4 text-sm text-blue-600 underline"
+            >
+                ← Back to PIES Checkin Dashboard
+            </button>
             <h2 className="text-xl mb-4">Production Tools</h2>
             <div className="grid gap-4 grid-cols-2">
                 {tools.map(({ label, path }) => (
