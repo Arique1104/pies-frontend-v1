@@ -1,17 +1,13 @@
-import { useNavigate } from "react-router-dom"
+import ProductionDashboardNavigation from "./ProductionDashboardNavigation";
+
 export default function Insights() {
     
-    const navigate = useNavigate();
-
-    return (<div className="p-6"> 
-        <button
-            onClick={() => navigate('/production')}
-            className="mb-4 text-sm text-blue-600 underline"
-        >
-            ← Back to Production Dashboard
-        </button>
+    return (
+    <div className="p-6"> 
+    <ProductionDashboardNavigation />
     <h2>
         📊 View Insights 
     </h2>
-    </div>)
+    </div>
+    )
 }
