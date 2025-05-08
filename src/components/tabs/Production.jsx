@@ -1,3 +1,11 @@
+import ProductionDashboardNavigation from "../production/ProductionDashboardNavigation";
+
 export default function Production() {
-    return <div>Production form coming soon!</div>;
+
+
+    return (
+        <div className="p-6">
+            <ProductionDashboardNavigation/>
+        </div>
+    );
 }

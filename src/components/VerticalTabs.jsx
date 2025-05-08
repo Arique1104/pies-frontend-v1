@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom'
-import { defaultTabs, roleExtraTabs, tabMap } from './tabsConfig'
+import { useNavigate } from 'react-router-dom';
+import { defaultTabs, roleExtraTabs, tabMap } from './tabsConfig';
 
 export default function VerticalTabs({ active, setActive, role = "individual" }) {
   const navigate = useNavigate();
@@ -14,13 +14,21 @@ export default function VerticalTabs({ active, setActive, role = "individual" })
     ...(roleExtraTabs[role] || []),
   ];
 
+  const handleTabClick = (key) => {
+    if (key === 'production') {
+      navigate('/production');
+    } else {
+      setActive(key); 
+    }
+  };
+
   return (
     <aside className="vertical-tabs">
       <div className="tabs-scroll">
         {allKeys.map((key) => (
           <button
             key={key}
-            onClick={() => setActive(key)}
+            onClick={() => handleTabClick(key)}
             className={active === key ? "active" : ""}
           >
             {tabMap[key]?.label || key}

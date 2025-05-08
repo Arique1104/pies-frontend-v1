@@ -16,7 +16,7 @@ export default function AuthProvider({ children }) {
                 headers: { Authorization: `Bearer ${token}` }
             }).then(res => {
                 const userData = res.data;
-                console.log("Logged-in user data:", userData);
+                // console.log("Logged-in user data:", userData); // for debugging
 
                 const currentUser = userData.user || userData; // fallback
                 setUser(currentUser);
@@ -29,7 +29,7 @@ export default function AuthProvider({ children }) {
                 }
 
                 setRole(assignedRole);
-                console.log("Role set to:", assignedRole);
+                // console.log("Role set to:", assignedRole); // for debugging
             }).catch(() => localStorage.removeItem('token'))
         }
     }, [])
