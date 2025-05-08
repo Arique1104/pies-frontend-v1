@@ -13,8 +13,8 @@ export default function UnmatchedKeywords({refreshTrigger}) {
             .finally(() => setLoading(false));
     }, [refreshTrigger]);
 
-    const handleDismiss = (word, category) => {
-        axios.post("/dismissed_keywords", { word, category }).then(() => {
+    const handleDismiss = (word, category, example) => {
+        axios.post("/dismissed_keywords", { word, category, example }).then(() => {
             setKeywords((prev) => prev.filter((k) => k.word !== word));
         });
     };
@@ -76,7 +76,7 @@ export default function UnmatchedKeywords({refreshTrigger}) {
 
                             <div className="flex gap-2 sm:flex-col sm:items-end">
                                 <button
-                                    onClick={() => handleDismiss(word, category)}
+                                    onClick={() => handleDismiss(word, category, example)}
                                     className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                                 >
                                     Dismiss
