@@ -16,7 +16,8 @@ export default instance
 
 export async function fetchGrowthSummary() {
     const response = await instance.get("/growth_summary");
-    return response.data;
+      return response.data;
+}
 
 export async function createPIESCheckin(data) {
     return await instance.post('/pies_entries', data)
