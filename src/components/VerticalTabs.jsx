@@ -1,51 +1,46 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { defaultTabs, roleExtraTabs, tabMap } from './tabsConfig';
 
-export default function VerticalTabs({ active, setActive, tabs, role = "individual" }) {
-    const navigate = useNavigate();
+export default function VerticalTabs({ active, setActive, role = "individual" }) {
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate("/", { replace: true });
-    };
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/", { replace: true });
+  };
 
-    // Add your role-based extras here
-    const roleBasedTabs = {
-        owner: ["Manage Users", "Analytics"],
-        leader: ["My Cohort"],
-        individual: []
-    };
+  const allKeys = [
+    ...defaultTabs,
+    ...(roleExtraTabs[role] || []),
+  ];
 
-    const extras = roleBasedTabs[role] || [];
+  const handleTabClick = (key) => {
+    if (key === 'production') {
+      navigate('/production');
+    } else {
+      setActive(key); 
+    }
+  };
 
-    return (
-        <aside className="vertical-tabs">
-            <div className="tabs-scroll">
-                {tabs.map((tab) => (
-                    <button
-                        key={tab}
-                        onClick={() => setActive(tab)}
-                        className={active === tab ? "active" : ""}
-                    >
-                        {tab}
-                    </button>
-                ))}
+  return (
+    <aside className="vertical-tabs">
+      <div className="tabs-scroll">
+        {allKeys.map((key) => (
+          <button
+            key={key}
+            onClick={() => handleTabClick(key)}
+            className={active === key ? "active" : ""}
+          >
+            {tabMap[key]?.label || key}
+          </button>
+        ))}
+      </div>
 
-                {extras.map((tab) => (
-                    <button
-                        key={tab}
-                        onClick={() => setActive(tab)}
-                        className={active === tab ? "active" : ""}
-                    >
-                        {tab}
-                    </button>
-                ))}
-            </div>
-
-            <div className="tabs-footer">
-                <button onClick={handleLogout} className="logout-button">
-                    Logout
-                </button>
-            </div>
-        </aside>
-    );
+      <div className="tabs-footer">
+        <button onClick={handleLogout} className="logout-button">
+          Logout
+        </button>
+      </div>
+    </aside>
+  );
 }

@@ -4,7 +4,6 @@ import instance from "../../utils/api";
 
 export default function Tips({setShowFavoritesTab}) {
     const [tips, setTips] = useState([]);
-    const [userId, setUserId] = useState(null);
     const [rated, setRated] = useState({});
     const [favorites, setFavorites] = useState({});
     const [feedbackMessages, setFeedbackMessages] = useState({});
@@ -16,10 +15,6 @@ export default function Tips({setShowFavoritesTab}) {
     useEffect(() => {
         async function fetchTips() {
             try {
-                const meRes = await instance.get("/me");
-                const id = meRes.data.user.id;
-                setUserId(id);
-
                 const res = await instance.get("/reflection_tips");
                 setTips(res.data);
             } catch (err) {
