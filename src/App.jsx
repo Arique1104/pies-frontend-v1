@@ -13,6 +13,7 @@ import Keywords from './components/production/Keywords';
 import Orgs from './components/production/Orgs';
 import Insights from './components/production/Insights';
 import Money from './components/production/Money';
+import OrgShowForSuperUser from './components/production/OrgShowForSuperUser';
 
 export default function App() {
   return (
@@ -50,6 +51,14 @@ export default function App() {
           element={
             <ProtectedOwnerRoute>
               <Orgs />
+            </ProtectedOwnerRoute>
+          }
+        />
+        <Route
+          path="/production/orgs/show"
+          element={
+            <ProtectedOwnerRoute>
+              <OrgShowForSuperUser />
             </ProtectedOwnerRoute>
           }
         />
