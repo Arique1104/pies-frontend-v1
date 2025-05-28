@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "../../utils/api";
+import instance from "../../utils/api";
 
 export default function ReflectionTips() {
     const [tips, setTips] = useState([]);
@@ -12,7 +12,7 @@ export default function ReflectionTips() {
 
     const fetchTips = () => {
         setLoading(true);
-        axios
+        instance
             .get("/reflection_tips")
             .then((res) => setTips(res.data))
             .finally(() => setLoading(false));
@@ -24,7 +24,7 @@ export default function ReflectionTips() {
         const tip = prompt("Reflection Tip?");
         if (!keyword || !category || !tip) return;
 
-        axios
+        instance
             .post("/reflection_tips", { keyword, category, tip })
             .then(fetchTips);
     };
@@ -33,14 +33,14 @@ export default function ReflectionTips() {
         const newTip = prompt("Edit Tip:", currentTip);
         if (!newTip || newTip === currentTip) return;
 
-        axios
+        instance
             .put(`/reflection_tips/${id}`, { tip: newTip })
             .then(fetchTips);
     };
 
     const handleDelete = (id) => {
         if (confirm("Are you sure you want to delete this tip?")) {
-            axios.delete(`/reflection_tips/${id}`).then(fetchTips);
+            instance.delete(`/reflection_tips/${id}`).then(fetchTips);
         }
     };
 

@@ -1,5 +1,5 @@
 import ProductionDashboardNavigation from "./ProductionDashboardNavigation";
-
+import OrgIndexForSuperUser from "./OrgIndexForSuperUser";
 export default function Orgs() {
     
     return (
@@ -8,5 +8,6 @@ export default function Orgs() {
         <h2>
         🏢 Manage Organizations
         </h2>
+        <OrgIndexForSuperUser />
         </div>);
 }
