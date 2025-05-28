@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import axios from '../utils/api'
+import instance from '../utils/api'
 
 const AuthContext = createContext()
 
@@ -12,7 +12,7 @@ export default function AuthProvider({ children }) {
     useEffect(() => {
         const token = localStorage.getItem('token')
         if (token) {
-            axios.get('/me', {
+            instance.get('/me', {
                 headers: { Authorization: `Bearer ${token}` }
             }).then(res => {
                 const userData = res.data;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "../../utils/api";
+import instance from "../../utils/api";
 
 export default function UnmatchedKeywords({refreshTrigger}) {
     const [keywords, setKeywords] = useState([]);
@@ -7,14 +7,14 @@ export default function UnmatchedKeywords({refreshTrigger}) {
     const [search, setSearch] = useState("");
 
     useEffect(() => {
-        axios
+        instance
             .get("/unmatched_keywords")
             .then((res) => setKeywords(res.data))
             .finally(() => setLoading(false));
     }, [refreshTrigger]);
 
     const handleDismiss = (word, category, example) => {
-        axios.post("/dismissed_keywords", { word, category, example }).then(() => {
+        instance.post("/dismissed_keywords", { word, category, example }).then(() => {
             setKeywords((prev) => prev.filter((k) => k.word !== word));
         });
     };
@@ -23,7 +23,7 @@ export default function UnmatchedKeywords({refreshTrigger}) {
         const tip = prompt(`Enter a reflection tip for "${word}" (${category}):`);
         if (!tip) return;
 
-        axios
+        instance
             .post("/reflection_tips", { keyword: word, category, tip })
             .then(() => {
                 setKeywords((prev) => prev.filter((k) => k.word !== word));

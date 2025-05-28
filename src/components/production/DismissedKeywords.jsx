@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "../../utils/api";
+import instance from "../../utils/api";
 
 export default function DismissedKeywords({ onRescue }) {
     const [dismissed, setDismissed] = useState([]);
@@ -12,7 +12,7 @@ export default function DismissedKeywords({ onRescue }) {
 
     const fetchDismissed = () => {
         setLoading(true);
-        axios
+        instance
             .get("/dismissed_keywords")
             .then((res) => setDismissed(res.data))
             .finally(() => setLoading(false));
@@ -21,7 +21,7 @@ export default function DismissedKeywords({ onRescue }) {
     const handleRescue = (word) => {
         if (!confirm(`Rescue keyword "${word}"?`)) return;
 
-        axios.delete(`/dismissed_keywords/${word}`).then(() => {
+        instance.delete(`/dismissed_keywords/${word}`).then(() => {
             fetchDismissed(); // refresh dismissed list
             if (onRescue) onRescue(); // trigger unmatched refresh
         });
